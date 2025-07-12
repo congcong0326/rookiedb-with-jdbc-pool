@@ -762,6 +762,7 @@ public class Database implements AutoCloseable {
 
         @Override
         public RecordId addRecord(String tableName, Record record) {
+            LockUtil.ensureSufficientLockHeld(getTableContext(tableName), LockType.X);
             Table tab = getTable(tableName);
             if (tab == null) {
                 throw new DatabaseException("table `" + tableName + "` does not exist!");
