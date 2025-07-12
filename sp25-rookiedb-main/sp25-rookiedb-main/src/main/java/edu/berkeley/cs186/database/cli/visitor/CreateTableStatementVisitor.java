@@ -41,7 +41,18 @@ class CreateTableStatementVisitor extends StatementVisitor {
         String fieldTypeStr = (String) components[1];
         Token param = (Token) components[2];
         Type fieldType = Type.intType();
-        switch(fieldName.toLowerCase()) {
+
+        // create table 不支持string (10) 的写法
+        // 暂时以 string10 修复
+        String lowerCaseFieldTypeStr = fieldTypeStr.toLowerCase();
+        if (lowerCaseFieldTypeStr.startsWith("string")) {
+            if (param == null) {
+                param = new Token();
+            }
+            param.image = lowerCaseFieldTypeStr.substring(6);
+            lowerCaseFieldTypeStr = "string";
+        }
+        switch(lowerCaseFieldTypeStr) {
             case "int":;
             case "integer":
                 fieldType = Type.intType();
