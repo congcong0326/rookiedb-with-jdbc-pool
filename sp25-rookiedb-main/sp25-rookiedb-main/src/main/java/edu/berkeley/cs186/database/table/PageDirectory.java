@@ -416,7 +416,7 @@ public class PageDirectory implements BacktrackingIterable<Page> {
             this.page.pin();
             try {
                 this.nextPage = new HeaderPage(page.getPageNum(), headerOffset + 1, false);
-                this.page.getBuffer().position(1).putLong(page.getPageNum());
+                this.page.getBuffer().position(5).putLong(page.getPageNum());
             } finally {
                 this.page.unpin();
                 page.unpin();
